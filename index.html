@@ -8,7 +8,7 @@
     body {
       margin: 0;
       text-align: center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -19,7 +19,7 @@
 
     #launchBtn {
       padding: 22px 24px;
-      font-family: inherit;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       font-size: 18px;
       font-weight: 600;
       border: none;
@@ -27,11 +27,14 @@
       background: #364F6B;
       color: #fff;
       cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
       transition: background-color 0.2s, transform 0.1s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     #launchBtn:hover {
-      background: #2b4057;
+      background: #2d4056;
     }
 
     #launchBtn:active {
@@ -42,8 +45,10 @@
       background: #ccc;
       color: #666;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
+    /* Hide the viewer visually but keep it renderable for AR */
     .visually-hidden {
       position: absolute !important;
       width: 1px !important;
@@ -58,6 +63,7 @@
 
   <button id="launchBtn">Start AR Experience</button>
 
+  <!-- 3D Model Viewer (hidden until AR starts) -->
   <model-viewer id="ar-model" class="visually-hidden"
     src="PureSip.glb"
     alt="3D model of an office chair"
@@ -72,10 +78,12 @@
     const mv = document.getElementById('ar-model');
     const btn = document.getElementById('launchBtn');
 
+    // Launch AR on click
     btn.addEventListener('click', () => {
       mv.activateAR();
     });
 
+    // Update button state when AR session changes
     mv.addEventListener('ar-status', (e) => {
       if (e.detail.status === 'session-started') {
         btn.textContent = 'AR Active';
